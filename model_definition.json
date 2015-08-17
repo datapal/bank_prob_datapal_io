@@ -1,1 +1,209 @@
-{"name": "Sales predictor (probabilities)", "pipes": [{"inputs": [{"variable_type": "integer", "required": true, "type": "variable", "name": "age"}, {"values": ["management", "retired", "self-employed", "unknown", "unemployed", "housemaid", "admin.", "technician", "student", "services", "entrepreneur", "blue-collar"], "variable_type": "string", "required": true, "type": "variable", "name": "job"}, {"values": ["single", "married", "divorced"], "variable_type": "string", "required": true, "type": "variable", "name": "marital"}, {"values": ["unknown", "primary", "tertiary", "secondary"], "variable_type": "string", "required": true, "type": "variable", "name": "education"}, {"values": ["yes", "no"], "variable_type": "string", "required": true, "type": "variable", "name": "default"}, {"variable_type": "integer", "required": true, "type": "variable", "name": "balance"}, {"values": ["yes", "no"], "variable_type": "string", "required": true, "type": "variable", "name": "housing"}, {"values": ["yes", "no"], "variable_type": "string", "required": true, "type": "variable", "name": "loan"}, {"values": ["unknown", "telephone", "cellular"], "variable_type": "string", "required": true, "type": "variable", "name": "contact"}, {"variable_type": "integer", "required": true, "type": "variable", "name": "days since last contact"}, {"variable_type": "integer", "required": true, "type": "variable", "name": "number previous contacts"}, {"values": ["unknown", "other", "success", "failure"], "variable_type": "string", "required": true, "type": "variable", "name": "previous outcome"}], "description": "Make predictions one by one.", "outputs": [{"variable_type": "float", "required": true, "type": "variable", "name": "success", "binary_decision": {"positive_label": "yes", "threshold": "interactive_from_scores", "negative_label": "no"}}], "action": "predict", "id": 0, "name": "One by one prediction"}, {"inputs": [{"extensions": ["csv"], "required": true, "type": "file", "name": "database"}], "description": "Upload csv file.", "outputs": [{"extensions": ["csv"], "type": "file", "name": "file with predictions"}], "action": "predict", "id": 1, "name": "Bulk prediction"}, {"inputs": [{"extensions": ["csv"], "required": true, "type": "file", "name": "database"}], "description": "Upload database with target labels.", "outputs": [{"type": "file", "name": "model_definition", "filenames": ["model_definition.json"]}, {"type": "file", "name": "scores", "filenames": ["scores.json"]}], "action": "train", "id": 2, "name": "Training pipe"}], "environment_name": "python2.7.9_June14th2015", "schema_version": "0.02", "base_algorithm": "Random Forest Classifier", "score_minimized": "gini", "retraining_allowed": true, "description": "Based on historical sales data, this predictor provides the probability (from 0 to 1) that a new potential customer purchases our product."}
+{
+    "base_algorithm": "Random Forest Classifier",
+    "description": "Based on historical sales data, this predictor provides the probability (from 0 to 1) that a new potential customer purchases our product.",
+    "environment_name": "python2.7.9_June14th2015",
+    "name": "Sales predictor (probabilities)",
+    "pipes": [
+        {
+            "action": "predict",
+            "description": "Make predictions one by one.",
+            "id": 0,
+            "inputs": [
+                {
+                    "name": "age",
+                    "required": true,
+                    "type": "variable",
+                    "variable_type": "integer"
+                },
+                {
+                    "name": "job",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "management",
+                        "retired",
+                        "self-employed",
+                        "unknown",
+                        "unemployed",
+                        "housemaid",
+                        "admin.",
+                        "technician",
+                        "student",
+                        "services",
+                        "entrepreneur",
+                        "blue-collar"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "marital",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "single",
+                        "married",
+                        "divorced"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "education",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "unknown",
+                        "primary",
+                        "tertiary",
+                        "secondary"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "default",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "yes",
+                        "no"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "balance",
+                    "required": true,
+                    "type": "variable",
+                    "variable_type": "integer"
+                },
+                {
+                    "name": "housing",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "yes",
+                        "no"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "loan",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "yes",
+                        "no"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "contact",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "unknown",
+                        "telephone",
+                        "cellular"
+                    ],
+                    "variable_type": "string"
+                },
+                {
+                    "name": "days since last contact",
+                    "required": true,
+                    "type": "variable",
+                    "variable_type": "integer"
+                },
+                {
+                    "name": "number previous contacts",
+                    "required": true,
+                    "type": "variable",
+                    "variable_type": "integer"
+                },
+                {
+                    "name": "previous outcome",
+                    "required": true,
+                    "type": "variable",
+                    "values": [
+                        "unknown",
+                        "other",
+                        "success",
+                        "failure"
+                    ],
+                    "variable_type": "string"
+                }
+            ],
+            "name": "One by one prediction",
+            "outputs": [
+                {
+                    "binary_decision": {
+                        "negative_label": "no",
+                        "positive_label": "yes",
+                        "threshold": "interactive_from_scores"
+                    },
+                    "name": "success",
+                    "required": true,
+                    "type": "variable",
+                    "variable_type": "float"
+                }
+            ]
+        },
+        {
+            "action": "predict",
+            "description": "Upload csv file.",
+            "id": 1,
+            "inputs": [
+                {
+                    "extensions": [
+                        "csv"
+                    ],
+                    "name": "database",
+                    "required": true,
+                    "type": "file"
+                }
+            ],
+            "name": "Bulk prediction",
+            "outputs": [
+                {
+                    "extensions": [
+                        "csv"
+                    ],
+                    "name": "file with predictions",
+                    "type": "file"
+                }
+            ]
+        },
+        {
+            "action": "train",
+            "description": "Upload database with target labels.",
+            "id": 2,
+            "inputs": [
+                {
+                    "extensions": [
+                        "csv"
+                    ],
+                    "name": "database",
+                    "required": true,
+                    "type": "file"
+                }
+            ],
+            "name": "Training pipe",
+            "outputs": [
+                {
+                    "filenames": [
+                        "model_definition.json"
+                    ],
+                    "name": "model_definition",
+                    "type": "file"
+                },
+                {
+                    "filenames": [
+                        "scores.json"
+                    ],
+                    "name": "scores",
+                    "type": "file"
+                }
+            ]
+        }
+    ],
+    "retraining_allowed": true,
+    "schema_version": "0.02",
+    "score_minimized": "gini"
+}
